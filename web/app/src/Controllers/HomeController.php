@@ -1,13 +1,22 @@
 <?php
 
-
 namespace App\Controllers;
-
 
 class HomeController
 {
     public function index()
     {
-        echo 're';
+
+        $var = 288888;
+
+        require_once __DIR__ . "/../Views/index.php";
+    }
+
+    public function read($id = null)
+    {
+
+        $var = 288888;
+
+        require_once __DIR__ . "/../Views/read.php";
     }
 }

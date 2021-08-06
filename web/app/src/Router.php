@@ -25,7 +25,7 @@ class Router extends SimpleRouter
 		require_once 'helpers.php';
 
 		// Load our custom routes
-		require_once 'routes/web.php';
+		require_once __DIR__ . "/../../routes/web.php";
 
 		// Do initial stuff
 		parent::start();

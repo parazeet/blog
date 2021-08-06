@@ -16,13 +16,21 @@ Router::group(['exceptionHandler' => CustomExceptionHandler::class], function ()
 
 	Router::get('/', 'HomeController@index')->setName('home');
 
-	Router::get('/contact', 'DefaultController@contact')->setName('contact');
+    Router::get('/read', 'HomeController@read')->setName('home');
+
+	Router::get('/login', 'AuthController@index')->setName('login');
+
+    Router::post('/login', 'AuthController@enter')->setName('loginPost');
+
+    Router::get('/register', 'AuthController@register')->setName('register');
+
+    Router::post('/register', 'AuthController@registerStore')->setName('registerStore');
 
 	Router::basic('/companies/{id?}', 'DefaultController@companies')->setName('companies');
 
     // API
 
-	Router::group(['prefix' => '/api', 'middleware' => ApiVerification::class], function () {
+	Router::group(['prefix' => '/admin', 'middleware' => ApiVerification::class], function () {
 		Router::resource('/demo', 'ApiController');
 	});
 
