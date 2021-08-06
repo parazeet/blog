@@ -18,7 +18,8 @@ services:
             - php
             - mysqldb
     php:
-        image: devilbox/php-fpm-8.0:${PHP_VERSION}
+        build: etc/php
+        container_name: php
         restart: always
         volumes:
             - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"

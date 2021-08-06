@@ -15,8 +15,6 @@ class HomeController
     public function read($id = null)
     {
 
-        $var = 288888;
-
         require_once __DIR__ . "/../Views/read.php";
     }
 }
