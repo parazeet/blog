@@ -2,19 +2,37 @@
 
 namespace App\Controllers;
 
+use App\Helpers\Error;
+use App\Model\Post;
+use App\ConnectDB;
+
 class HomeController
 {
+    private $db;
+
+    public function __construct()
+    {
+        $database = new ConnectDB();
+        $this->db = $database->getConnection();
+    }
+
     public function index()
     {
-
-        $var = 288888;
+        $post = new Post($this->db);
+        $posts = $post->getAll();
 
         require_once __DIR__ . "/../Views/index.php";
     }
 
-    public function read($id = null)
+    public function show($id = null)
     {
+        $post = new Post($this->db);
+        $post = $post->first($id);
 
-        require_once __DIR__ . "/../Views/read.php";
+        if (!$post) {
+            Error::show();
+        }
+
+        require_once __DIR__ . "/../Views/show.php";
     }
 }

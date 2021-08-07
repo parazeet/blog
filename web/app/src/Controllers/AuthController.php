@@ -6,19 +6,16 @@ use App\ConnectDB;
 
 class AuthController
 {
+    private $db;
+
+    public function __construct()
+    {
+        $database = new ConnectDB();
+        $this->db = $database->getConnection();
+    }
+
     public function index()
     {
-
-        $database = new ConnectDB();
-        $db = $database->getConnection();
-
-var_dump($db);
-
-
-
-// создадим экземпляры классов Product и Category
-        /*$product = new Product($db);
-        $category = new Category($db);*/
 
         //require_once __DIR__ . "/../Views/Auth/login.php";
     }

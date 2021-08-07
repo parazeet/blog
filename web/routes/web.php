@@ -16,7 +16,7 @@ Router::group(['exceptionHandler' => CustomExceptionHandler::class], function ()
 
 	Router::get('/', 'HomeController@index')->setName('home');
 
-    Router::get('/read', 'HomeController@read')->setName('home');
+    Router::get('/show/{id?}', 'HomeController@show')->setName('show');
 
 	Router::get('/login', 'AuthController@index')->setName('login');
 
