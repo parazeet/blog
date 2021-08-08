@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\ConnectDB;
+use App\Model\User;
 
 class AuthController
 {
@@ -16,32 +17,48 @@ class AuthController
 
     public function index()
     {
-
-        //require_once __DIR__ . "/../Views/Auth/login.php";
+        require_once __DIR__ . "/../Views/Auth/login.php";
     }
 
     public function enter()
     {
-        var_dump($_POST);
+        $user = new User($this->db);
+        $user = $user->find(input('email'));
 
-        //require_once __DIR__ . "/../Views/read.php";
+        if (!password_verify(input('password'), $user['password'])) {
+            return response()->redirect(url('login'));
+        }
+
+        //go auth
+
+        return response()->redirect(url('home'));
     }
 
     public function register()
     {
-
         require_once __DIR__ . "/../Views/Auth/register.php";
     }
 
     public function registerStore()
     {
-        var_dump($_POST);
-        //require_once __DIR__ . "/../Views/read.php";
+        $user = new User($this->db);
+
+        if (input('password') !== input('password_conf')) {
+            return response()->redirect(url('register'));
+        }
+
+        if (! $user->create(input()->all())) {
+            return response()->redirect(url('register'));
+        }
+
+        //go auth
+
+        return response()->redirect(url('home'));
     }
 
     public function logout()
     {
         var_dump($_POST);
-        //require_once __DIR__ . "/../Views/index.php";
+        //return response()->redirect(url('home'));
     }
 }

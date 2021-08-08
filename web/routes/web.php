@@ -24,7 +24,7 @@ Router::group(['exceptionHandler' => CustomExceptionHandler::class], function ()
 
     Router::get('/register', 'AuthController@register')->setName('register');
 
-    Router::post('/register', 'AuthController@registerStore')->setName('registerStore');
+    Router::post('/registerStore', 'AuthController@registerStore')->setName('registerStore');
 
 	Router::basic('/companies/{id?}', 'DefaultController@companies')->setName('companies');
 

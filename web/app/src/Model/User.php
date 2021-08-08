@@ -7,15 +7,15 @@ class User
     private $conn;
     private $table_name = "users";
 
-    // свойства объекта
     public $id;
     public $name;
     public $email;
     public $password;
-    public $timestamp;
+    public $created_at;
 
     public function __construct($db) {
         $this->conn = $db;
+        $this->created_at = date('Y-m-d H:i:s');
     }
 
     public function auth() {
@@ -29,30 +29,33 @@ class User
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function first($id) {
-        $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE id = :id");
-        $stmt->execute(['id' => $id]);
+    public function find($email) {
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE email = :email");
+        $stmt->execute(['email' => $email]);
 
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    /*public function create($arr) {
-        $allowed = array("name","surname","email"); // allowed fields
-        $sql = "INSERT INTO users SET ".$this->pdoSet($allowed,$values);
-        $stm = $dbh->prepare($sql);
-        $stm->execute($values);
-    }
+    public function create($data): bool
+    {
+        $query = "INSERT INTO
+                    " . $this->table_name . "
+                SET
+                    name=:name, email=:email, password=:password, created_at=:created_at";
 
-    function pdoSet($allowed, &$values, $source = array()) {
-        $set = '';
-        $values = array();
-        if (!$source) $source = &$_POST;
-        foreach ($allowed as $field) {
-            if (isset($source[$field])) {
-                $set.="`".str_replace("`","``",$field)."`". "=:$field, ";
-                $values[$field] = $source[$field];
-            }
+        $stmt = $this->conn->prepare($query);
+
+        $password = password_hash($data['password'], PASSWORD_BCRYPT);
+
+        $stmt->bindParam(":name", $data['name']);
+        $stmt->bindParam(":email", $data['email']);
+        $stmt->bindParam(":password", $password);
+        $stmt->bindParam(":created_at", $this->created_at);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
         }
-        return substr($set, 0, -2);
-    }*/
+    }
 }
