@@ -35,4 +35,12 @@ class HomeController
 
         require_once __DIR__ . "/../Views/show.php";
     }
+
+    public function postsList()
+    {
+        $post = new Post($this->db);
+        $posts = $post->getAll();
+
+        require_once __DIR__ . "/../Views/list.php";
+    }
 }

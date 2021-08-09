@@ -18,6 +18,8 @@ Router::group(['exceptionHandler' => CustomExceptionHandler::class], function ()
 
     Router::get('/show/{id?}', 'HomeController@show')->setName('show');
 
+    Router::get('/postsList', 'HomeController@postsList')->setName('postsList');
+
 	Router::get('/login', 'AuthController@index')->setName('login');
 
     Router::post('/login', 'AuthController@enter')->setName('loginPost');

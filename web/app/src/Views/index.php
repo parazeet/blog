@@ -4,12 +4,20 @@
 ?>
     <article class="blog-post">
     <?php
-    foreach ($posts as $post) {
-        echo "<h2 class=\"blog-post-title\">{$post['title']}</h2>";
-        echo "<p class=\"blog-post-meta\">January 1, 2021 by <a href=\"#\">Mark</a></p>";
-        echo "<p class>{$post['body']}</p>";
-        echo "<a class='btn btn-outline-primary' href=\"/show/{$post['id']}\">Читать далее</a>";
-        echo "<hr>";
+    if (!empty($posts)) {
+        foreach ($posts as $post) {
+            $array = explode(" ", $post['body']);
+            $array = array_slice($array, 0, 30);
+            $shotBody = implode(" ", $array);
+
+            echo "<a href=\"" . url('postsList') . "\"><h2 class=\"blog-post-title\">{$post['title']}</h2></a>";
+            echo "<p class=\"blog-post-meta\">" . date( 'F d, Y', strtotime($post['created_at'])) . " <!--<a href=\"#\">Mark</a>--></p>";
+            echo "<p class>{$shotBody}...</p>";
+            echo "<a class='btn btn-outline-primary' href=\"/show/{$post['id']}\">Читать далее</a>";
+            echo "<hr>";
+        }
+    } else {
+        echo "<h2 class=\"blog-post-title\">Публикации отсутствуют</h2>";
     }
     ?>
     </article>
