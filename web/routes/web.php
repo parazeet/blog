@@ -28,7 +28,7 @@ Router::group(['exceptionHandler' => CustomExceptionHandler::class], function ()
 
     Router::post('/registerStore', 'AuthController@registerStore')->setName('registerStore');
 
-	Router::basic('/companies/{id?}', 'DefaultController@companies')->setName('companies');
+	Router::post('/logout', 'AuthController@logout')->setName('logout');
 
     // API
 
