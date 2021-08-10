@@ -1,5 +1,4 @@
 <?php
-session_start();
 $root = 'http://' . $_SERVER['HTTP_HOST'];
 ?>
 <!DOCTYPE html>

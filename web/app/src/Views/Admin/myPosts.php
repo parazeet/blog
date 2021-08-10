@@ -1,8 +1,8 @@
 <?php
-include_once "header.php";
+include __DIR__ . "/../Layouts/header.php";
+include __DIR__ . "/../Layouts/navbarAuth.php";
 ?>
-
-
+    <div class="container">
         <table class="table">
             <thead>
             <tr>
@@ -44,7 +44,7 @@ include_once "header.php";
             </tr>
             </tbody>
         </table>
-
+    </div>
 <?php
-include_once __DIR__ . "/../Views/footer.php";
+include __DIR__ . "/../Layouts/footer.php";
 ?>

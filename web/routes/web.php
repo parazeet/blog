@@ -32,18 +32,8 @@ Router::group(['exceptionHandler' => CustomExceptionHandler::class], function ()
 
     // API
 
-	Router::group(['prefix' => '/admin', 'middleware' => ApiVerification::class], function () {
-		Router::resource('/demo', 'ApiController');
+	Router::group(['middleware' => ApiVerification::class], function () {
+		Router::get('/admin', 'AdminController@index')->setName('myPosts');
+        Router::get('/create', 'AdminController@create')->setName('createPost');
 	});
-
-    // CALLBACK EXAMPLES
-
-    Router::get('/foo', function() {
-        return 'foo';
-    });
-
-    Router::get('/foo-bar', function() {
-        return 'foo-bar';
-    });
-
 });

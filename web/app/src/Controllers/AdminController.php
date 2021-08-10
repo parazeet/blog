@@ -2,27 +2,33 @@
 
 namespace App\Controllers;
 
+use App\ConnectDB;
+
 class AdminController
 {
+    private $db;
+
+    public function __construct()
+    {
+        session_start();
+        $database = new ConnectDB();
+        $this->db = $database->getConnection();
+    }
+
     public function index()
     {
-        require_once __DIR__ . "/../Views/Admin/indexAdmin.php";
-        /*return response()->json([
-            'method' => 'index'
-        ]);*/
+        require_once __DIR__ . "/../Views/Admin/myPosts.php";
+    }
+
+    public function create()
+    {
+        require_once __DIR__ . "/../Views/Admin/createPost.php";
     }
 
     public function store(): ?string
     {
         return response()->json([
             'method' => 'store'
-        ]);
-    }
-
-    public function create(): ?string
-    {
-        return response()->json([
-            'method' => 'create'
         ]);
     }
 
