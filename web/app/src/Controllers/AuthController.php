@@ -17,25 +17,33 @@ class AuthController
 
     public function index()
     {
+        $this->checkAuth();
+
         require_once __DIR__ . "/../Views/Auth/login.php";
     }
 
-    public function enter()
+    public function loginPost()
     {
         $user = new User($this->db);
         $user = $user->find(input('email'));
 
-        if (!password_verify(input('password'), $user['password'])) {
+        if (!$user and !password_verify(input('password'), $user['password'])) {
             return response()->redirect(url('login'));
         }
 
-        //go auth
+        session_start();
+
+        $_SESSION["id"] = $user['id'];
+        $_SESSION["user_name"] = $user['name'];
+        $_SESSION['time'] = time();
 
         return response()->redirect(url('home'));
     }
 
     public function register()
     {
+        $this->checkAuth();
+
         require_once __DIR__ . "/../Views/Auth/register.php";
     }
 
@@ -47,18 +55,37 @@ class AuthController
             return response()->redirect(url('register'));
         }
 
-        if (! $user->create(input()->all())) {
+        if ($user->find(input('email'))) {
             return response()->redirect(url('register'));
         }
 
-        //go auth
+        if ($user->create(input()->all())) {
+            $auth = $user->find(input('email'));
+
+            session_start();
+
+            $_SESSION["id"] = $auth['id'];
+            $_SESSION["user_name"] = $auth['name'];
+            $_SESSION['time'] = time();
+        }
 
         return response()->redirect(url('home'));
     }
 
     public function logout()
     {
-        var_dump($_POST);
-        //return response()->redirect(url('home'));
+        session_start();
+        session_destroy();
+
+        return response()->redirect(url('home'));
+    }
+
+    public function checkAuth()
+    {
+        session_start();
+
+        if($_SESSION["user_name"]) {
+            return response()->redirect(url('home'));
+        }
     }
 }

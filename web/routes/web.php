@@ -22,13 +22,13 @@ Router::group(['exceptionHandler' => CustomExceptionHandler::class], function ()
 
 	Router::get('/login', 'AuthController@index')->setName('login');
 
-    Router::post('/login', 'AuthController@enter')->setName('loginPost');
+    Router::post('/login', 'AuthController@loginPost')->setName('loginPost');
 
     Router::get('/register', 'AuthController@register')->setName('register');
 
     Router::post('/registerStore', 'AuthController@registerStore')->setName('registerStore');
 
-	Router::post('/logout', 'AuthController@logout')->setName('logout');
+	Router::get('/logout', 'AuthController@logout')->setName('logout');
 
     // API
 

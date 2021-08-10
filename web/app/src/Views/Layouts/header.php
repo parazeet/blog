@@ -1,4 +1,7 @@
-<?php $root = 'http://' . $_SERVER['HTTP_HOST']; ?>
+<?php
+session_start();
+$root = 'http://' . $_SERVER['HTTP_HOST'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

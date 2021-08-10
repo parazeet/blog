@@ -3,7 +3,7 @@ include __DIR__ . "/../Layouts/header.php";
 include __DIR__ . "/../Layouts/navbarAuth.php";
 ?>
     <div class="container">
-        <form action="<?= url('registerStore'); ?>" method="post">
+        <form action="<?= url('loginPost'); ?>" method="post">
             <input type="hidden" name="csrf_token" value="<?= csrf_token(); ?>">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
