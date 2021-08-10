@@ -11,6 +11,7 @@ class AuthController
 
     public function __construct()
     {
+        session_start();
         $database = new ConnectDB();
         $this->db = $database->getConnection();
     }
@@ -30,8 +31,6 @@ class AuthController
         if (!$user and !password_verify(input('password'), $user['password'])) {
             return response()->redirect(url('login'));
         }
-
-        session_start();
 
         $_SESSION["id"] = $user['id'];
         $_SESSION["user_name"] = $user['name'];
@@ -62,8 +61,6 @@ class AuthController
         if ($user->create(input()->all())) {
             $auth = $user->find(input('email'));
 
-            session_start();
-
             $_SESSION["id"] = $auth['id'];
             $_SESSION["user_name"] = $auth['name'];
             $_SESSION['time'] = time();
@@ -74,7 +71,6 @@ class AuthController
 
     public function logout()
     {
-        session_start();
         session_destroy();
 
         return response()->redirect(url('home'));
@@ -82,8 +78,6 @@ class AuthController
 
     public function checkAuth()
     {
-        session_start();
-
         if($_SESSION["user_name"]) {
             return response()->redirect(url('home'));
         }
