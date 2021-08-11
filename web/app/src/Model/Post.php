@@ -21,8 +21,15 @@ class Post
     }
 
     public function getAll() {
-        $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name /*. " WHERE user_id = :user_id"*/);
-        $stmt->execute(/*['user_id' => $userId]*/);
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " ORDER BY created_at DESC");
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getMyPosts($userId) {
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -39,41 +46,15 @@ class Post
         $query = "INSERT INTO
                     " . $this->table_name . "
                 SET
-                    title=:title, body=:body, img=:img, created_at=:created_at";
+                    user_id=:user_id, title=:title, body=:body, img=:img, created_at=:created_at";
 
-        $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(":title", $data['title']);
-        $stmt->bindParam(":body", $data['body']);
-        $stmt->bindParam(":img", $data['img']);
-        $stmt->bindParam(":created_at", $this->created_at);
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    function update()
-    {
-        $query = "UPDATE
-                " . $this->table_name . "
-            SET
-                name = :name,
-                body = :price,
-                img = :img,
-                updated_at  = :updated_at
-            WHERE
-                id = :id";
-
-        $stmt = $this->conn->prepare($query);
-// править
-        $stmt->bindParam(':name', $this->name);
-        $stmt->bindParam(':body', $this->body);
-        $stmt->bindParam(':img', $this->img);
-        $stmt->bindParam(':updated_at', $this->updated_at);
-        $stmt->bindParam(':id', $this->id);
+        $stmt = $this->conn->prepare([
+            ":user_id" => $_SESSION['id'],
+            ":title" => $data['title'],
+            ":body" => $data['body'],
+            ":img" => $data['img'],
+            ":created_at" => $this->created_at
+        ]);
 
         if ($stmt->execute()) {
             return true;
@@ -82,4 +63,43 @@ class Post
         return false;
     }
 
+    function update($id, $data)
+    {
+        $query = "UPDATE " . $this->table_name . " 
+            SET title= :title, body= :body, img= :img, updated_at= :updated_at
+            WHERE id= :id AND user_id= :user_id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute(array(
+            ":id" => $id,
+            ":title" => $data['title'],
+            ":user_id" => $_SESSION['id'],
+            ":body" => $data['body'],
+            ":img" => $data['img'],
+            ":updated_at" => $this->updated_at
+        ));
+
+        if($stmt){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function delete($id)
+    {
+        $query = "DELETE FROM " . $this->table_name . " WHERE id= :id AND user_id= :user_id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute(array(
+            ":id" => $id,
+            ":user_id" => $_SESSION['id']
+        ));
+
+        if($stmt){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

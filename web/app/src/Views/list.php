@@ -23,9 +23,6 @@
             <?php
             if (!empty($posts)) {
                 foreach ($posts as $post) {
-                    $array = explode(" ", $post['body']);
-                    $array = array_slice($array, 0, 15);
-                    $shotBody = implode(" ", $array);
                     $date = date( 'F d, Y', strtotime($post['created_at']));
 
                     echo "<a href=\"/show/{$post['id']}\" class=\"list-group-item list-group-item-action\" aria-current=\"true\">

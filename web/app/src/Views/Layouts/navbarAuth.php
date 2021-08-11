@@ -7,10 +7,10 @@
         </a>
         <?php
             $home = url('home');
-            $register = url('register');
+            $logout = url('logout');
             $myPost = url('myPosts');
             $addPost = url('createPost');
-            if($_SESSION['user_name']) {
+            if(isset($_SESSION['user_name'])) {
                 echo "<ul class=\"nav col-12 col-md-auto mb-2 justify-content-center mb-md-0\">
                         <li><a href=\"{$home}\" class=\"nav-link px-2 link-secondary\">Home</a></li>
                         <li class=\"nav-item dropdown\">
@@ -27,7 +27,7 @@
                     </ul>";
             } else {
                 $login = url('login');
-                $logout = url('logout');
+                $register = url('register');
                 echo "<div class=\"col-md-3 text-end\">
                     <a href=\"{$login}\" class=\"btn btn-outline-primary me-2\">Login</a>
                     <a href=\"{$register}\" class=\"btn btn-outline-primary\">Sign-up</a>

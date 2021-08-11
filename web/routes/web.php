@@ -35,5 +35,9 @@ Router::group(['exceptionHandler' => CustomExceptionHandler::class], function ()
 	Router::group(['middleware' => ApiVerification::class], function () {
 		Router::get('/admin', 'AdminController@index')->setName('myPosts');
         Router::get('/create', 'AdminController@create')->setName('createPost');
+        Router::post('/store', 'AdminController@store')->setName('storePost');
+        Router::get('/edit/{id}', 'AdminController@edit')->setName('editPost');
+        Router::post('/update/{id}', 'AdminController@update')->setName('updatePost');
+        Router::post('/delete/{id}', 'AdminController@delete')->setName('deletePost');
 	});
 });

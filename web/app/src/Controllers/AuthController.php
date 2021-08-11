@@ -11,7 +11,6 @@ class AuthController
 
     public function __construct()
     {
-        session_start();
         $database = new ConnectDB();
         $this->db = $database->getConnection();
     }
@@ -78,7 +77,7 @@ class AuthController
 
     public function checkAuth()
     {
-        if($_SESSION["user_name"]) {
+        if(isset($_SESSION["user_name"])) {
             return response()->redirect(url('home'));
         }
     }

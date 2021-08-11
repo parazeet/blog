@@ -27,7 +27,6 @@
                                 <span class="meta">Понимание что такое сессии и авторизация</span>
                             </li>
                         </ol>
-
                     </div>
                 </div>
             </div>
@@ -39,7 +38,7 @@
     <?php
     if (!empty($posts)) {
         foreach ($posts as $key => $post) {
-            $array = explode(" ", $post['body']);
+            $array = explode(" ", htmlspecialchars(strip_tags($post['body'])));
             $array = array_slice($array, 0, 30);
             $shotBody = implode(" ", $array);
             $urlList = url('postsList');

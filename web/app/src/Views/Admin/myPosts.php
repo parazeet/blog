@@ -13,35 +13,40 @@ include __DIR__ . "/../Layouts/navbarAuth.php";
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
+            <?php
+            foreach ($posts as $post) {
+                $csrf = csrf_token();
+                $show = url('show', ['id' => $post['id']]);
+                $edit = url('editPost', ['id' => $post['id']]);
+                $delete = url('deletePost', ['id' => $post['id']]);
+
+                $array = explode(" ", htmlspecialchars(strip_tags($post['body'])));
+                $array = array_slice($array, 0, 10);
+                $shotBody = implode(" ", $array);
+
+                echo "<tr>
+                <th scope=\"row\">{$post['id']}</th>
+                <td>{$post{'title'}}</td>
+                <td>{$shotBody}</td>
                 <td>
-                    <button type="button" class="btn btn-primary">Primary</button>
-                    <button type="button" class="btn btn-warning">Warning</button>
-                    <button type="button" class="btn btn-danger">Danger</button>
+                    <div class='row mx-0 px-0'>
+                        <div class='col-sm-4 mx-0 px-1'>
+                            <a href=\"{$show}\" class=\"btn btn-primary\">Show</a>
+                        </div>
+                        <div class='col-sm-4 mx-0 px-1'>
+                            <a href=\"{$edit}\" class=\"btn btn-warning\">Edit</a>
+                        </div>
+                        <div class='col-sm-4 mx-0 px-0'>
+                            <form method='post' action=\"{$delete}\" onsubmit=\"return confirm('Are you serious???')\">
+                                <input type=\"hidden\" name=\"csrf_token\" value=\"{$csrf}\">
+                                <input type=\"submit\" class=\"btn btn-danger\" value=\"Delete\">
+                            </form>
+                        </div>
+                    </div>
                 </td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>
-                    <button type="button" class="btn btn-primary">Primary</button>
-                    <button type="button" class="btn btn-warning">Warning</button>
-                    <button type="button" class="btn btn-danger">Danger</button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>
-                    <button type="button" class="btn btn-primary">Primary</button>
-                    <button type="button" class="btn btn-warning">Warning</button>
-                    <button type="button" class="btn btn-danger">Danger</button>
-                </td>
-            </tr>
+            </tr>";
+            }
+            ?>
             </tbody>
         </table>
     </div>

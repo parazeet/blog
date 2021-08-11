@@ -9,7 +9,7 @@ include "Layouts/navbar.php";
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="post-heading">
                         <h1><?php echo $post['title'] ?></h1>
-                        <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
+                        <!--<h2 class="subheading">Problems look mighty small from 150 miles up</h2>-->
                         <span class="meta">
                                 Posted by
                                 Anyone <!--<a href="#!">Start Bootstrap</a>-->
@@ -24,7 +24,7 @@ include "Layouts/navbar.php";
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    <p class><?php echo $post['body'] ?></p>
+                    <?php echo $post['body'] ?>
                     <a class='btn btn-outline-primary' href="<?php echo url('home'); ?>">На главную</a>
                 </div>
             </div>
