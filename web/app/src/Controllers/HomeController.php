@@ -8,26 +8,24 @@ use App\ConnectDB;
 
 class HomeController
 {
-    private $db;
+    private $post;
 
     public function __construct()
     {
         $database = new ConnectDB();
-        $this->db = $database->getConnection();
+        $this->post = new Post($database->getConnection());
     }
 
     public function index()
     {
-        $post = new Post($this->db);
-        $posts = $post->getAll();
+        $posts = $this->post->getAll();
 
         require_once __DIR__ . "/../Views/index.php";
     }
 
     public function show($id = null)
     {
-        $post = new Post($this->db);
-        $post = $post->first($id);
+        $post = $this->post->first($id);
 
         if (!$post) {
             Error::show();
@@ -38,9 +36,15 @@ class HomeController
 
     public function postsList()
     {
-        $post = new Post($this->db);
-        $posts = $post->getAll();
+        $posts = $this->post->getAll();
 
         require_once __DIR__ . "/../Views/list.php";
+    }
+
+    public function search()
+    {
+        $posts = $this->post->search(input('search'));
+
+        require_once __DIR__ . "/../Views/index.php";
     }
 }

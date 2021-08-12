@@ -36,6 +36,16 @@ class Post
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    public function search($search) {
+        $query = "SELECT * FROM " . $this->table_name . " 
+            WHERE title LIKE :search OR body LIKE :search
+            ORDER BY created_at DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([":search" => '%' . $search . '%']);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     public function create(array $data): bool
     {
         $query = "INSERT INTO

@@ -9,7 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="<?= url('home'); ?>">Home</a></li>
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#">Search</a></li>
+                <!--<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#">Search</a></li>-->
                 <?php
                     $login = url('login');
                     $logout = url('logout');
@@ -32,8 +32,12 @@
                     }
                 ?>
             </ul>
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="get" action="<?= url('search') ?>">
+                <!--<input type="hidden" name="csrf_token" value="<?/*= csrf_token(); */?>">-->
+                <div class="input-group">
+                    <input type="search" name="search" class="form-control form-control-dark" placeholder="Search ..." aria-label="Search ..." aria-describedby="button-search">
+                    <button class="btn btn-sm btn-secondary" type="submit" id="button-search">Go</button>
+                </div>
             </form>
         </div>
     </div>

@@ -30,6 +30,8 @@ Router::group(['exceptionHandler' => CustomExceptionHandler::class], function ()
 
 	Router::get('/logout', 'AuthController@logout')->setName('logout');
 
+    Router::get('/search', 'HomeController@search')->setName('search');
+
     // API
 
 	Router::group(['middleware' => ApiVerification::class], function () {
