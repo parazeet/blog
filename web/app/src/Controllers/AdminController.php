@@ -12,6 +12,10 @@ class AdminController
 
     public function __construct()
     {
+        if (empty($_SESSION['user_name'])) {
+            redirect(url('login'));
+        }
+
         $database = new ConnectDB();
         $this->post = new Post($database->getConnection());
     }
