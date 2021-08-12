@@ -37,14 +37,6 @@ class AdminController
         return redirect(url('createPost'));
     }
 
-    public function show($id): string
-    {
-        // The variable authenticated is set to true in the ApiVerification middleware class.
-        /*return response()->json([
-            'authenticated' => request()->authenticated
-        ]);*/
-    }
-
     public function edit($id)
     {
         if (!$post = $this->post->first($id)) {

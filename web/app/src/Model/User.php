@@ -7,10 +7,6 @@ class User
     private $conn;
     private $table_name = "users";
 
-    public $id;
-    public $name;
-    public $email;
-    public $password;
     public $created_at;
 
     public function __construct($db) {

@@ -54,6 +54,5 @@ services:
         ports:
             - "8989:3306"
         volumes:
-            - "./data/db/mysql:/var/lib/mysql"
-            #Сохраняет состояние БД в папку data и восстанавливает после build
-            #- "./data/db/mysql:/var/lib/mysql"
+            - "./etc/mysql:/application"
+            - "./etc/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"

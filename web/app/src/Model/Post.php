@@ -7,11 +7,6 @@ class Post
     private $conn;
     private $table_name = "posts";
 
-    public $id;
-    public $user_id;
-    public $title;
-    public $body;
-    public $img;
     public $created_at;
     public $updated_at;
 
@@ -48,15 +43,15 @@ class Post
                 SET
                     user_id=:user_id, title=:title, body=:body, img=:img, created_at=:created_at";
 
-        $stmt = $this->conn->prepare([
+        $stmt = $this->conn->prepare($query);
+
+        if ($stmt->execute([
             ":user_id" => $_SESSION['id'],
             ":title" => $data['title'],
             ":body" => $data['body'],
             ":img" => $data['img'],
             ":created_at" => $this->created_at
-        ]);
-
-        if ($stmt->execute()) {
+        ])) {
             return true;
         }
 
@@ -70,14 +65,14 @@ class Post
             WHERE id= :id AND user_id= :user_id";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->execute(array(
+        $stmt->execute([
             ":id" => $id,
             ":title" => $data['title'],
             ":user_id" => $_SESSION['id'],
             ":body" => $data['body'],
             ":img" => $data['img'],
             ":updated_at" => $this->updated_at
-        ));
+        ]);
 
         if($stmt){
             return true;
