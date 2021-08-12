@@ -96,11 +96,11 @@ class AdminController
         $countTitle = iconv_strlen($request['title']);
         $countBody = iconv_strlen($request['body']);
 
-        if ($countTitle < 3 or $countTitle > (2 ^ 16)) {
-            $_SESSION["errors"][] = 'Title должен быть больше 3 знаков';
+        if ($countTitle < 3 or $countTitle > 500) {
+            $_SESSION["errors"][] = 'Title должен быть от 3 до 500 знаков';
         }
 
-        if ($countBody < 20 /*or $countBody > (2 ^ 16)*/) {
+        if ($countBody < 20 or $countBody > 65535) {
             $_SESSION["errors"][] = 'Body должен быть больше 20 знаков. Напиши уже что-то достойное...!';
         }
 
