@@ -35,4 +35,22 @@
             }
         ?>
     </header>
+
+<?php
+
+if(isset($_SESSION['message'])) {
+    echo "<p class=\"alert alert-info\">{$_SESSION['message']}</p>";
+    unset($_SESSION['message']);
+}
+if(isset($_SESSION['errors'])) {
+    if (is_array($_SESSION['errors'])) {
+        foreach ($_SESSION['errors'] as $error) {
+            echo "<p class=\"alert alert-danger\">{$error}</p>";
+        }
+    } else {
+        echo "<p class=\"alert alert-danger\">{$_SESSION['errors']}</p>";
+    }
+    unset($_SESSION['errors']);
+}
+?>
 </div>

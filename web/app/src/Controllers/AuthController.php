@@ -7,12 +7,12 @@ use App\Model\User;
 
 class AuthController
 {
-    private $db;
+    private $user;
 
     public function __construct()
     {
         $database = new ConnectDB();
-        $this->db = $database->getConnection();
+        $this->user = new User($database->getConnection());
     }
 
     public function index()
@@ -24,10 +24,12 @@ class AuthController
 
     public function loginPost()
     {
-        $user = new User($this->db);
-        $user = $user->find(input('email'));
 
-        if (!$user and !password_verify(input('password'), $user['password'])) {
+        $user = $this->user->find(input('email'));
+
+        if (!$user or !password_verify(input('password'), $user['password'])) {
+            $_SESSION["errors"] = 'email или пароль указан не верно';
+
             return response()->redirect(url('login'));
         }
 
@@ -47,18 +49,12 @@ class AuthController
 
     public function registerStore()
     {
-        $user = new User($this->db);
-
-        if (input('password') !== input('password_conf')) {
+        if ($this->validation(input()->all())) {
             return response()->redirect(url('register'));
         }
 
-        if ($user->find(input('email'))) {
-            return response()->redirect(url('register'));
-        }
-
-        if ($user->create(input()->all())) {
-            $auth = $user->find(input('email'));
+        if ($this->user->create(input()->all())) {
+            $auth = $this->user->find(input('email'));
 
             $_SESSION["id"] = $auth['id'];
             $_SESSION["user_name"] = $auth['name'];
@@ -80,5 +76,33 @@ class AuthController
         if(isset($_SESSION["user_name"])) {
             return response()->redirect(url('home'));
         }
+    }
+
+    private function validation($request)
+    {
+        if (!filter_var($request['email'], FILTER_VALIDATE_EMAIL)) {
+            $_SESSION["errors"][] = 'email указан не верно';
+        }
+
+        $countName = iconv_strlen($request['name']);
+        $countPass = iconv_strlen($request['password']);
+
+        if ($countName < 3 or $countPass >= 64) {
+            $_SESSION["errors"][] = 'Имя должно быть от 3 до 64 знаков';
+        }
+
+        if ($countPass < 6 or $countPass >= 64) {
+            $_SESSION["errors"][] = 'Пароль должен быть от 6 до 64 знаков';
+        }
+
+        if ($request['password'] !== $request['password_conf']) {
+            $_SESSION["errors"][] = 'Пароли не совпадают';
+        }
+
+        if ($this->user->find($request['email'])) {
+            $_SESSION["errors"][] = 'Данный email уже зарегестрирован';
+        }
+
+        return isset($_SESSION["errors"]);
     }
 }
