@@ -4,6 +4,7 @@
  */
 
 use App\Router;
+use Pecee\Http\Request;
 use App\Middlewares\CsrfVerifier;
 use App\Handlers\CustomExceptionHandler;
 
@@ -30,4 +31,14 @@ Router::group(['exceptionHandler' => CustomExceptionHandler::class], function ()
     Router::get('/edit/{id}', 'AdminController@edit')->setName('editPost');
     Router::post('/update/{id}', 'AdminController@update')->setName('updatePost');
     Router::post('/delete/{id}', 'AdminController@delete')->setName('deletePost');
+
+    Router::get('/error', 'ErrorController@show')->setName('error');
+    Router::error(function(Request $request, \Exception $exception) {
+        switch($exception->getCode()) {
+            case 404:
+                response()->redirect(url('error'));
+            case 403:
+                response()->redirect(url('error'));
+        }
+    });
 });

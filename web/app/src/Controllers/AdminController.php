@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\ConnectDB;
-use App\Helpers\Error;
 use App\Model\Post;
 
 class AdminController
@@ -52,7 +51,7 @@ class AdminController
     public function edit($id)
     {
         if (!$post = $this->post->first($id)) {
-            Error::show();
+            ErrorController::show();
         }
 
         require_once __DIR__ . "/../Views/Admin/editPost.php";
@@ -61,7 +60,7 @@ class AdminController
     public function update($id)
     {
         if (!$this->post->first($id)) {
-            Error::show();
+            ErrorController::show();
         }
 
         if ($this->validation(input()->all())) {
@@ -82,7 +81,7 @@ class AdminController
     public function delete($id)
     {
         if (!$this->post->first($id)) {
-            Error::show();
+            ErrorController::show();
         }
 
         if ($this->post->delete($id)) {

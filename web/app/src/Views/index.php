@@ -52,7 +52,7 @@
                         <h3 class=\"post-subtitle\">{$shotBody}</h3>
                         <p class=\"post-meta\">
                             Posted by
-                                Anyone<!--<a href=\"#!\">Start Bootstrap</a>-->
+                                <a href=\"#!\">{$post['name']}</a>
                             on {$date}
                         </p>
                         <a href=\"{$url}\" class='btn btn-outline-info'>Читать далее</a>

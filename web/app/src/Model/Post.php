@@ -16,7 +16,8 @@ class Post
     }
 
     public function getAll() {
-        $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " ORDER BY created_at DESC");
+        $stmt = $this->conn->prepare("SELECT p.id, p.user_id, p.title, p.body, p.created_at, p.updated_at, u.name FROM "
+            . $this->table_name . " as p LEFT JOIN users as u ON u.id=p.user_id ORDER BY p.created_at DESC");
         $stmt->execute();
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);

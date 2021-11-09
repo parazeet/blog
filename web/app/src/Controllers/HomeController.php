@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Helpers\Error;
 use App\Model\Post;
 use App\ConnectDB;
 
@@ -28,7 +27,7 @@ class HomeController
         $post = $this->post->first($id);
 
         if (!$post) {
-            Error::show();
+            ErrorController::show();
         }
 
         require_once __DIR__ . "/../Views/show.php";
